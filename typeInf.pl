@@ -91,7 +91,7 @@ fType(fToInt, [float,int]).
 fType(iToFloat, [int,float]).
 fType(print, [_X, unit]). /* simple print */
 
-*/ Find function signature
+/* Find function signature
    A function is either buld in using fType or
    added as a user definition with gvar(fct, List)
 */
