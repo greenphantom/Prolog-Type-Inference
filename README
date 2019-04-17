@@ -22,7 +22,7 @@ What to implement
 
 The provided code already implements significant part of the 
 type inference mechanism. You need to complete it to allow
-a more complete coverage of OCAml type inference. Specifically:
+a more complete coverage of OCaml type inference. Specifically:
 
 1. Add more basic functions to provide interesting code (fType predicate)
 2. Add more statement types. At a minimum you need to cover:
