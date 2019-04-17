@@ -8,6 +8,7 @@
     delegeGVars() predicate to clean up gvar().
 */
 
+%test
 % tests for typeExp
 test(typeExp_iplus) :- 
     typeExp(iplus(int,int), int).
