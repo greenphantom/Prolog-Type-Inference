@@ -113,8 +113,9 @@ deleteGVars():-retractall(gvar), asserta(gvar(_X,_Y):-false()).
 
     TODO: add more functions
 */
-fType('<', [int, int, bool]).
-fType('<', [float, float, bool]). %ask in class
+fType('=', [int, int, bool]).
+fType('==', [float, float, bool]).
+fType('<', [float, float, bool]).
 fType(iminus, [int, int, int]).
 fType(iplus, [int,int,int]).
 fType(fplus, [float, float, float]).
