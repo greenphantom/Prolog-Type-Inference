@@ -42,6 +42,14 @@ typeStatement(if(Cond, TCode, FCode), T):-
     typeCode(FCode, T),
     bType(T).
 
+/* For loop */
+typeStatement(for(Assign, Cond, Code), T):-
+    typeExp(Assign, int), % ensures assign is of type int
+    typeExp(Cond, bool),
+    typeCode(Code, _T3), % we dont care about this
+    typeExp(T, bType(unit)).
+
+
 typeStatement(Expr, T):-
     typeExp(Expr, T),
     bType(T).
