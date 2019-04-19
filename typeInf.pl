@@ -25,15 +25,31 @@ typeExpList([Hin|Tin], [Hout|Tout]):-
     Example:
         gvLet(v, T, int) ~ let v = 3;
  */
+
+/*gvLet(v, T, T):-*/ 
+
 typeStatement(gvLet(Name, T, Code), unit):-
     atom(Name), /* make sure we have a bound name */
     typeExp(Code, T), /* infer the type of Code and ensure it is T */
     bType(T), /* make sure we have an infered type */
     asserta(gvar(Name, T)). /* add definition to database */
 
+
+/* If statement */
+typeStatement(if(Cond, TCode, FCode), T):-
+    typeExp(Cond, bool),
+    typeCode(TCode, T),
+    typeCode(FCode, T),
+    bType(T).
+
+typeStatement(Expr, T):-
+    typeExp(Expr, T),
+    bType(T).
+
 /* Code is simply a list of statements. The type is 
     the type of the last statement 
 */
+typeCode([], T):- bType(T).
 typeCode([S], T):-typeStatement(S, T).
 typeCode([S, S2|Code], T):-
     typeStatement(S,_T),
@@ -48,6 +64,7 @@ infer(Code, T) :-
 /* Basic types
     TODO: add more types if needed
  */
+bType(bool).
 bType(int).
 bType(float).
 bType(string).
@@ -59,6 +76,10 @@ bType(unit). /* unit type for things that are not expressions */
  */
 bType([H]):- bType(H).
 bType([H|T]):- bType(H), bType(T).
+
+/* allow alpha types */
+bType(T):-
+    var(T).
 
 /*
     TODO: as you encounter global variable definitions
@@ -84,7 +105,9 @@ deleteGVars():-retractall(gvar), asserta(gvar(_X,_Y):-false()).
 
     TODO: add more functions
 */
-
+fType('<', [float, float, bool]).
+fType('<', [int, int, bool]).
+fType(iminus, [int, int, int]).
 fType(iplus, [int,int,int]).
 fType(fplus, [float, float, float]).
 fType(fToInt, [float,int]).
