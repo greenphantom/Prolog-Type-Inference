@@ -26,13 +26,26 @@ typeExpList([Hin|Tin], [Hout|Tout]):-
         gvLet(v, T, int) ~ let v = 3;
  */
 
-/*gvLet(v, T, T):-*/ 
-
 typeStatement(gvLet(Name, T, Code), unit):-
     atom(Name), /* make sure we have a bound name */
     typeExp(Code, T), /* infer the type of Code and ensure it is T */
     bType(T), /* make sure we have an infered type */
     asserta(gvar(Name, T)). /* add definition to database */
+
+/* gfLet for functions */
+/* idk what im doing */
+/* need something for parameters */
+/* do we even need this ? */
+/* should this even be a statement ? */
+/* stay tuned to find out */
+
+/* i think this works right now */
+typeStatement(gfLet(Name, Args, T, Code), T):-
+    atom(Name),
+    typeCode(Code, T),
+    is_list(Args),
+    append(Args, [T], X),
+    asserta(gvar(Name, X)).
 
 
 /* If statement */
@@ -117,8 +130,13 @@ fType('=', [int, int, bool]).
 fType('==', [float, float, bool]).
 fType('<', [float, float, bool]).
 fType(iminus, [int, int, int]).
+fType(itimes, [int, int, int]).
+fType(idivide, [int, int, int]).
 fType(iplus, [int,int,int]).
 fType(fplus, [float, float, float]).
+fType(fminus, [float, float, float]).
+fType(ftimes, [float, float, float]).
+fType(fdivide, [float, float, float]).
 fType(fToInt, [float,int]).
 fType(iToFloat, [int,float]).
 fType(print, [_X, unit]). /* simple print */
@@ -129,7 +147,7 @@ fType(print, [_X, unit]). /* simple print */
 */
 
 % Check the user defined functions first
-functionType(Name, Args):-
+functionType(Name, Args):-  % this doesnt account for the return type, gflet appends return type to args like in ocaml -Kyle
     gvar(Name, Args),
     is_list(Args). % make sure we have a function not a simple variable
 
