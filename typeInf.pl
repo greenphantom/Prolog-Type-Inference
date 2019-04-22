@@ -32,6 +32,21 @@ typeStatement(gvLet(Name, T, Code), unit):-
     bType(T), /* make sure we have an infered type */
     asserta(gvar(Name, T)). /* add definition to database */
 
+typeStatement(lvLetIn(Name, T, Code, Func), unit):-
+    % 1. Check if var is valid 
+    atom(Name), /* make sure we have a bound name */
+    typeExp(Code, T), /* infer the type of Code and ensure it is T */
+    bType(T), /* make sure we have an infered type */
+
+    % 2. Add var to special local variable cache (stack?)
+    asserta(lvar(Name-T)), /* add definition to local stack */
+
+    % 3. Run Func (?)
+    typeStatement(Func,T2),
+
+    % 4. Remove var from local cache
+    retract(lvar(Name-T)).
+    
 /* gfLet for functions */
 /* idk what im doing */
 /* need something for parameters */
@@ -158,4 +173,4 @@ functionType(Name, Args) :-
 % This gets wiped out but we have it here to make the linter happy
 %gvar(_, _) :- false().
 
-:- dynamic(gvar/2).
+:- dynamic(gvar/2), dynamic(lvar/1).
