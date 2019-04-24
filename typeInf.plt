@@ -44,38 +44,52 @@ test(mockedFct, [nondet]) :-
 
 /* -------------------------------------------------------------------------- */
 
+/* Test 1 */
 test(addFloat) :-
     infer([fplus(float, float)], T),
     assertion(T==float).
 
+/* Test 2 */
 test(minusInt) :-
     infer([iminus(X,Y)], int),
     assertion(X==int), assertion(Y==int).
 
+/* Test 3 */
+test(nestedMath) :-
+    infer([itimes(int, iplus(int, T))], T1),
+    assertion(T==int), assertion(T1==int).
+
+/* Test 4 */
 test(ifStatement) :-
     infer([if(<(float, float), [int, float, int], [int, int])], T),
     assertion(T==int).
 
+/* Test 5 */
 test(ifStatementFail, [fail]) :-
     infer([if(<(float, float), [int, float, float], [int, int])], _).
 
+/* Test 6 */
 test(forStatement) :-
     infer([for(int, bool, [int, int, string, int])], T),
     assertion(T==unit).
 
+/* Test 7 */
 test(forStatementFail, [fail]) :-
     infer([for(float, bool, [int, int, string, int])], _).
 
+/* Test 8 */
 test(globalVariable) :-
     infer([gvLet(v, T, int)], _),
     assertion(T==int),
     gvar(v, int).
 
+/* Test 9 */
 test(globalVariables) :-
     infer([gvLet(v,T1, int), gvLet(x, T2, float), gvLet(s, T3, string)], _),
     assertion(T1==int), assertion(T2==float), assertion(T3==string),
     gvar(v, int), gvar(x, float), gvar( s, string).
 
+/* Test 10 */
 test(function) :-
     infer([gvLet(x, T1, float), gfLet(add, [int, int], T, [int, gvar(x, T2)])], _),
     assertion(T1==float),
