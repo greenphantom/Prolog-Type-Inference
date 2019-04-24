@@ -120,5 +120,11 @@ test(moreComplexLetIn):-
     gvar(gy,int),
     gvar(gx,float).
 
+/* Test 14 */
+test(failLetIn, [fail]):-
+    infer([lvLetIn(x,T,float,[lvLetIn(t,T2,int,[lvLetIn(z,T3,bool,[gvLet(gx,T4,lvar(x,T5))])],gvLet(gz,_,lvar(z,_)))])], unit),
+    assertion(T==float), assertion(T2==int), assertion(T3==bool), assertion(T4==float), assertion(T5==float),
+    gvar(gx, float).
+
 
 :-end_tests(typeInf).
