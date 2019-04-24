@@ -96,6 +96,6 @@ test(function) :-
     assertion(T2==float),
     assertion(T==float),
     gvar(x,float),
-    gvar(add, [int,int,int]).
+    gvar(add, [int,int,float]).
 
 :-end_tests(typeInf).
