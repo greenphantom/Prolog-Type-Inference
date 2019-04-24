@@ -75,7 +75,7 @@ typeStatement(for(Assign, Cond, Code), T):-
     typeExp(Assign, int), % ensures assign is of type int
     typeExp(Cond, bool),
     typeCode(Code, _T3), % we dont care about this
-    typeExp(T, bType(unit)).
+    typeExp(T, unit).
 
 
 typeStatement(Expr, T):-

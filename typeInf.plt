@@ -41,4 +41,37 @@ test(mockedFct, [nondet]) :-
     typeExp(my_fct(X), T), % infer type of expression using or function
     assertion(X==int), assertion(T==float). % make sure the types infered are correct
 
+
+/* -------------------------------------------------------------------------- */
+
+test(addFloat) :-
+    infer([fplus(float, float)], T),
+    assertion(T==float).
+
+test(minusInt) :-
+    infer([iminus(X,Y)], int),
+    assertion(X==int), assertion(Y==int).
+
+test(ifStatement) :-
+    infer([if(<(float, float), [int, float, int], [int, int])], T),
+    assertion(T==int).
+
+test(ifStatementFail, [fail]) :-
+    infer([if(<(float, float), [int, float, float], [int, int])], _).
+
+test(forStatement) :-
+    infer([for(int, bool, [int, int, string, int])], T),
+    assertion(T==unit).
+
+test(forStatementFail, [fail]) :-
+    infer([for(float, bool, [int, int, string, int])], _).
+
+test(globalVariable) :-
+    infer([gvLet(v, T, int)], _),
+    assertion(T==int).
+
+test(globalVariables) :-
+    infer([gvLet(v,T1, int), gvLet(x, T2, float), gvLet(s, T3, string)], _),
+    assertion(T1==int), assertion(T2==float), assertion(T3==string).
+
 :-end_tests(typeInf).
