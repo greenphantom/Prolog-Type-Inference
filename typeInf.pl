@@ -42,7 +42,7 @@ typeStatement(lvLetIn(Name, T, Code, Func), unit):-
     asserta(lvar(Name-T)), /* add definition to local stack */
 
     % 3. Run Func (?)
-    typeStatement(Func,T2),
+    typeStatement(Func,_),
 
     % 4. Remove var from local cache
     retract(lvar(Name-T)).
@@ -81,6 +81,9 @@ typeStatement(for(Assign, Cond, Code), T):-
 typeStatement(Expr, T):-
     typeExp(Expr, T),
     bType(T).
+
+typeStatement(gvar(Name, T), T):-
+    gvar(Name, T).
 
 /* Code is simply a list of statements. The type is 
     the type of the last statement 

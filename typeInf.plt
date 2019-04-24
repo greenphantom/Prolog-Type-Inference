@@ -68,10 +68,20 @@ test(forStatementFail, [fail]) :-
 
 test(globalVariable) :-
     infer([gvLet(v, T, int)], _),
-    assertion(T==int).
+    assertion(T==int),
+    gvar(v, int).
 
 test(globalVariables) :-
     infer([gvLet(v,T1, int), gvLet(x, T2, float), gvLet(s, T3, string)], _),
-    assertion(T1==int), assertion(T2==float), assertion(T3==string).
+    assertion(T1==int), assertion(T2==float), assertion(T3==string),
+    gvar(v, int), gvar(x, float), gvar( s, string).
+
+test(function) :-
+    infer([gvLet(x, T1, float), gfLet(add, [int, int], T, [int, gvar(x, T2)])], _),
+    assertion(T1==float),
+    assertion(T2==float),
+    assertion(T==float),
+    gvar(x,float),
+    gvar(add, [int,int,int]).
 
 :-end_tests(typeInf).
