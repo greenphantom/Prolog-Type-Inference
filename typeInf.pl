@@ -151,6 +151,10 @@ fType(iminus, [int, int, int]).
 fType(itimes, [int, int, int]).
 fType(idivide, [int, int, int]).
 fType(iplus, [int,int,int]).
+fType('+', [int,int,int]).
+fType(iappend, [string, int, string]).
+fType(fappend, [string, float, string]).
+fType('+.', [float, float, float]).
 fType(fplus, [float, float, float]).
 fType(fminus, [float, float, float]).
 fType(ftimes, [float, float, float]).
