@@ -46,13 +46,6 @@ typeStatement(lvLetIn(Name, T, Code, Func), unit):-
 
     % 4. Remove var from local cache
     retract(lvar(Name, T)).
-    
-/* gfLet for functions */
-/* idk what im doing */
-/* need something for parameters */
-/* do we even need this ? */
-/* should this even be a statement ? */
-/* stay tuned to find out */
 
 /* i think this works right now */
 typeStatement(gfLet(Name, Args, T, Code), T):-
