@@ -60,36 +60,42 @@ test(nestedMath) :-
     assertion(T==int), assertion(T1==int).
 
 /* Test 4 */
+test(moreNestedMath) :-
+    infer([gvLet(x, T, float), gvar(x,T2), fplus(T4, fplus(T3, fplus(float, T2)))], _),
+    assertion(T==float), assertion(T2==float), assertion(T3==float), assertion(T4==float),
+    gvar(x,float).
+
+/* Test 5 */
 test(ifStatement) :-
     infer([if(<(float, float), [int, float, int], [int, int])], T),
     assertion(T==int).
 
-/* Test 5 */
+/* Test 6 */
 test(ifStatementFail, [fail]) :-
     infer([if(<(float, float), [int, float, float], [int, int])], _).
 
-/* Test 6 */
+/* Test 7 */
 test(forStatement) :-
     infer([for(int, bool, [int, int, string, int])], T),
     assertion(T==unit).
 
-/* Test 7 */
+/* Test 8 */
 test(forStatementFail, [fail]) :-
     infer([for(float, bool, [int, int, string, int])], _).
 
-/* Test 8 */
+/* Test 9 */
 test(globalVariable) :-
     infer([gvLet(v, T, int)], _),
     assertion(T==int),
     gvar(v, int).
 
-/* Test 9 */
+/* Test 10 */
 test(globalVariables) :-
     infer([gvLet(v,T1, int), gvLet(x, T2, float), gvLet(s, T3, string)], _),
     assertion(T1==int), assertion(T2==float), assertion(T3==string),
-    gvar(v, int), gvar(x, float), gvar( s, string).
+    gvar(v, int), gvar(x, float), gvar(s, string).
 
-/* Test 10 */
+/* Test 11 */
 test(function) :-
     infer([gvLet(x, T1, float), gfLet(add, [int, int], T, [int, gvar(x, T2)])], _),
     assertion(T1==float),
