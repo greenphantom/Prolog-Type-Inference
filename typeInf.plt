@@ -70,6 +70,11 @@ test(ifStatement) :-
     infer([if(<(float, float), [int, float, int], [int, int])], T),
     assertion(T==int).
 
+/* Test X */
+test(ifNestedStatement) :-
+    infer([if(<(float, float), [int, float, int], [if(<(float, float), [int, float, int], [int, int])])], T),
+    assertion(T==int).
+
 /* Test 6 */
 test(ifStatementFail, [fail]) :-
     infer([if(<(float, float), [int, float, float], [int, int])], _).
@@ -77,6 +82,11 @@ test(ifStatementFail, [fail]) :-
 /* Test 7 */
 test(forStatement) :-
     infer([for(int, bool, [int, int, string, int])], T),
+    assertion(T==unit).
+
+/* Test X */
+test(forNestedStatement) :-
+    infer([for(int, bool, [for(int, bool, [int, int, string, int])])], T),
     assertion(T==unit).
 
 /* Test 8 */
@@ -103,5 +113,23 @@ test(function) :-
     assertion(T==float),
     gvar(x,float),
     gvar(add, [int,int,float]).
+
+/* Test X */
+test(complexTest1Fail, [fail]) :-
+    infer([gvLet(x, T1, float), gvar(x, C1), gvLet(y, T2, int), gvLet(d, T3, unit), gvar(d, C2), fdivide(C2,C1)], _).
+
+/* Test X */
+test(complexTest1) :-
+    infer([gvLet(x, T1, float), gvLet(y, T2, int), gvLet(q, T3, bool), gvLet(z, T4, string), gvLet(d, T5, unit)], _),
+    assertion(T1==float), assertion(T2==int), assertion(T3==bool), assertion(T4==string), assertion(T5==unit).
+    
+% /* Test X */
+% test(complexTest2Fail, [fail]) :-
+%     infer([gvLet(x, T1, float), gvar(x, C1), gvLet(y, T2, int), gvLet(d, T3, unit), gvar(d, C2), fdivide(C2,C1)], _).
+
+/* Test X */
+test(printTest) :-
+    infer([print(int),print(float),print(bool),print(unit),print(string)], _).
+    
 
 :-end_tests(typeInf).
