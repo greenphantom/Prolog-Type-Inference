@@ -131,5 +131,27 @@ test(complexTest1) :-
 test(printTest) :-
     infer([print(int),print(float),print(bool),print(unit),print(string)], _).
     
+/* Test 12 */
+test(letIn) :-
+    infer([lvLetIn(x,T,float,[gvLet(y, T1, lvar(x,T2))])], unit),
+    assertion(T==float), assertion(T1==float), assertion(T2==float),
+    \+lvar(x,float), %make sure x is deleted when leaving scope
+    gvar(y, float).
+
+/* Test 13 */
+test(moreComplexLetIn):-
+    infer([lvLetIn(x,T,float,[lvLetIn(y,T1,int,[gvLet(gy, T2, lvar(y,T3)), gvLet(gx, T4, lvar(x,T5))])])], unit),
+    assertion(T==float), assertion(T1==int), assertion(T2==int), assertion(T3==int), assertion(T4==float),assertion(T5==float),
+    \+lvar(x,float),
+    \+lvar(y,int),
+    gvar(gy,int),
+    gvar(gx,float).
+
+/* Test 14 */
+test(failLetIn, [fail]):-
+    infer([lvLetIn(x,T,float,[lvLetIn(t,T2,int,[lvLetIn(z,T3,bool,[gvLet(gx,T4,lvar(x,T5))])],gvLet(gz,_,lvar(z,_)))])], unit),
+    assertion(T==float), assertion(T2==int), assertion(T3==bool), assertion(T4==float), assertion(T5==float),
+    gvar(gx, float).
+
 
 :-end_tests(typeInf).
