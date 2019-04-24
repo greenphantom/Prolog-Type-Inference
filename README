@@ -124,3 +124,16 @@ A. Add sum types
 B. Add tuple types
 C. Add templated assignment to unpack tuples
 D. Add match statements support 
+
+
+=========
+
+gvar - holds global variables as provided
+gvLet - defines a variables
+gfLet - defines a function with name, arguments, and return type e.g. add [int, int, int]
+lvLetIn - used for let in statements
+lvar - holds local variables that are deleted when leaving scope defined in
+if and for loops are implemented
+more fTypes were added
+
+authored by: Kyle Bassignani and Daniel Tymecki 
